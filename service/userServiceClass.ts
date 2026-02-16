@@ -1,3 +1,4 @@
+import { authUtil } from "../factory/authFactory.js";
 import { email, logActivity } from "../factory/utilFactory.js";
 import type { baseUser } from "../repository/user/baseUser.js";
 import { userGeneralMethodsClass } from "../repository/user/userGeneralMethods.js";
@@ -6,11 +7,21 @@ import { serverError } from "../utils/errorUtil.js";
 class userServiceClass {
     constructor (private userMethods : userGeneralMethodsClass) {}
     createUser = async (data : baseUser) => {
+
+        const existing = await this.userMethods.getByEmail(data.email);
+        if(existing){
+            throw new serverError(400, "User with the specified email already exists");
+        }
+
+        const hashedPass = await authUtil.hashPass(data.password);
+
         const user = await this.userMethods.create(data);
+        
         if(user){
+            const token = authUtil.generateToken(user._id?.toString() ?? "");
             email.send(user.email, "Welcome !");
             logActivity.log("New User Created");
-            return user;
+            return { user, token};
         }
 
         throw new serverError(500, "Error while creating a user");

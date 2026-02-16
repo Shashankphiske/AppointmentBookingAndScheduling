@@ -13,6 +13,7 @@ interface mongoUserModel extends UserType, mongoose.Document{};
 const userSchema = new mongoose.Schema<mongoUserModel>({
     name : { type : String, default : null },
     email : { type : String },
+    password : { type : String }
 });
 
 const User = mongoose.model("User", userSchema);

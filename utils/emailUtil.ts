@@ -14,11 +14,11 @@ class emailClass implements sendMail {
     }
 
     sendUpdatedAppointment (sp : string, user : string, appointment : string) {
-        console.log(`Email sent to Service Provider : ${sp} and User : ${user} regarding their updated appointment with the id : ${appointment}`);
+        console.log(`Email sent to Service Provider : ${sp} and User : ${user} regarding their updated and rescheduled appointment with the id : ${appointment}`);
     }
 
     sendDeletedAppointment (sp : string, user : string, appointment : string) {
-        console.log(`Email sent to Service Provider : ${sp} and User : ${user} regarding the deletion of their appointment with the id : ${appointment}`);
+        console.log(`Email sent to Service Provider : ${sp} and User : ${user} regarding the cancelation of their appointment with the id : ${appointment}`);
     }
 }
 

@@ -4,8 +4,9 @@ import type { ObjectId } from "mongodb";
 interface appointmentType {
     _id : ObjectId
     name : string;
-    status : boolean;
-    createdAt : Date;   
+    status : string;
+    date : string;  
+    time : string; 
     serviceProviderEmail : string;
     userEmail : string;
 }
@@ -14,8 +15,9 @@ interface mongoAppointmentModel extends appointmentType, mongoose.Document{};
 
 const appointmentModel = new mongoose.Schema<mongoAppointmentModel>({
     name : { type : String },
-    status : { type : Boolean },
-    createdAt : { type : Date },
+    status : { type : String },
+    date : { type : String },
+    time : { type : String },
     serviceProviderEmail : { type : String },
     userEmail : { type : String }
 });

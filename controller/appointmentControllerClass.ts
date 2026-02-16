@@ -29,7 +29,7 @@ class appointmentControllerClass {
     }
 
     updateAppointment = async (req : Request, res : Response) => {
-        if(req.body.id){
+        if(req.body._id){
             const appointment = await this.appointmentServices.updateAppointment(req.body);
             return res.send(appointment);
         }

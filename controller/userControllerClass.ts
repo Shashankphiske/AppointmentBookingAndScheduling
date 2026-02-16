@@ -7,8 +7,9 @@ class userControllerClass {
 
     createUser = async (req : Request, res : Response) => {
         if(req.body.email && req.body.password){
-            const user = await this.userServices.createUser(req.body);
-            return res.send(user);
+            const data = await this.userServices.createUser(req.body);
+            res.cookie("token", data.token, {maxAge : 604800, sameSite : true, httpOnly : true});
+            return res.send(data.user);
         }
 
         throw new serverError(400, "Please provide necessary email and password");

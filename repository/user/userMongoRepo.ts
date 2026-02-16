@@ -24,6 +24,11 @@ class userMongoRepoClass extends userGeneralMethodsClass {
         const user = await User.findByIdAndDelete(id);
         return user ?? <baseUser>{};
     }
+
+    async getByEmail(email: string): Promise<baseUser> {
+         const user = await User.findOne({ email : email });
+         return user ?? <baseUser>{};
+    }
 }
 
 export { userMongoRepoClass }

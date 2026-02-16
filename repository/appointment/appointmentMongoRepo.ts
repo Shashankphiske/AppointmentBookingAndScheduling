@@ -7,7 +7,8 @@ class appointmentMongoRepoClass extends appointmentGeneralMethodsClass {
     async create (data: baseAppointment): Promise<baseAppointment> {
         const appointment = new Appointment({
             ...data,
-            createdAt : new Date(),
+            date : new Date().toISOString().split("T")[0],
+            time : new Date().toISOString().split("T")[1]?.split(".")[0],
             status : "OPEN"
         });
 
@@ -32,6 +33,10 @@ class appointmentMongoRepoClass extends appointmentGeneralMethodsClass {
         const appointment = await Appointment.findById(data._id);
         if ( appointment != null){
             appointment.status = data.status || appointment.status;
+            appointment.date = data.date || appointment.date;
+            appointment.time = data.time || appointment.time;
+            appointment.serviceProviderEmail = data.serviceProviderEmail || appointment.serviceProviderEmail;
+            appointment.userEmail = data.userEmail || appointment.userEmail;
             await appointment.save();
         }
 
