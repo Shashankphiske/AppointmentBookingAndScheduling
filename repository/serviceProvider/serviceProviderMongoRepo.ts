@@ -5,9 +5,7 @@ import { serviceproviderGeneralMethodsClass } from "./serviceProviderGeneralMeth
 class serviceProviderMongoRepoClass extends serviceproviderGeneralMethodsClass{
     async create (data : baseServiceProvider) : Promise<baseServiceProvider> {
         const serviceprovider = new ServiceProvider(data);
-
         await serviceprovider.save();
-
         return serviceprovider;
     }
 

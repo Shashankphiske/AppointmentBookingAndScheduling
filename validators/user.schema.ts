@@ -24,9 +24,6 @@ const deleteUserSchema = z.object({
     body : z.object({
         id : z.string({ error : "Please provide an id" })
     }),
-    cookies : z.object({
-        token : z.string({ error : "Please validate yourself by logging in" })
-    })
 })
 
 export { createUserSchema, getUserSchema, getByEmailUserSchema, deleteUserSchema }

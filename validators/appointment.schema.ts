@@ -4,7 +4,9 @@ const createAppointmentSchema = z.object({
     body : z.object({
         name : z.string({ error : "appointment name required" }),
         userEmail : z.string({ error : "user email required" }),
-        serviceProviderEmail : z.string({ error : "service provider email required" })
+        serviceProviderEmail : z.string({ error : "service provider email required" }),
+        date : z.string({ error : "Please provide a scheduled date for the appointment" }),
+        time : z.string({ error : "Please provide a specific timing of the appointment" })
     })
 })
 

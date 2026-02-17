@@ -2,6 +2,7 @@ import type { authServiceClass } from "../service/authServiceClass.js";
 import type { Request, Response, NextFunction } from "express"
 import { serverError } from "../utils/errorUtil.js";
 import { logActivity } from "../factory/utilFactory.js";
+import { authUtil } from "../factory/authFactory.js";
 
 class authControllerClass {
     constructor ( private authServices : authServiceClass ) {}
@@ -16,22 +17,17 @@ class authControllerClass {
         })
     }
 
-    validateUser = async ( req : Request, res : Response, next : NextFunction ) => {
-        if(req.cookies.token){
-            await this.authServices.validateUser(req.cookies.token);
-            return next();
+    validate = (route : string) => {
+        return async ( req : Request, res : Response, next : NextFunction) => {
+            const { id, role } = authUtil.decodeToken(req.cookies.token);
+            console.log(role)
+            if(role == route || route == "*"){
+                await this.authServices.validate(id, role);
+                return next();
+            }
+
+            throw new serverError(400, "Please validate yourself");
         }
-
-        throw new serverError(400, "Please validate yourself");
-    }
-
-    validateServiceProvider = async ( req : Request, res : Response, next : NextFunction ) => {
-        if(req.cookies.token){
-            await this.authServices.validateServiceProvider(req.cookies.token);
-            return next();
-        }
-
-        throw new serverError(400, "Please validate yourself");
     }
 
     logout = async (req : Request, res : Response) => {

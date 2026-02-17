@@ -16,7 +16,7 @@ class appointmentControllerClass {
 
     getAllAppointments = async (req : Request, res : Response) => {
         const appointments = await this.appointmentServices.getAllAppointments();
-        return appointments;
+        return res.send(appointments);
     }
 
     updateAppointment = async (req : Request, res : Response) => {

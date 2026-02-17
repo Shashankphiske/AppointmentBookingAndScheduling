@@ -7,9 +7,7 @@ class appointmentMongoRepoClass extends appointmentGeneralMethodsClass {
     async create (data: baseAppointment): Promise<baseAppointment> {
         const appointment = new Appointment({
             ...data,
-            date : new Date().toISOString().split("T")[0],
-            time : new Date().toISOString().split("T")[1]?.split(".")[0],
-            status : "OPEN"
+            status : "scheduled"
         });
 
         await appointment.save();

@@ -19,7 +19,7 @@ class authServiceClass {
 
                 if(flag){
                     logActivity.log(`User logged in with the id : ${user._id}`);
-                    const token = authUtil.generateToken( user?._id?.toString() ?? "", "serviceProvider" );
+                    const token = authUtil.generateToken( user?._id?.toString() ?? "", "user" );
                     return token;
                 }
 
@@ -46,33 +46,21 @@ class authServiceClass {
         }
     }
 
-    validateUser = async ( token : string ) => {
-        const decoded = jwt.verify(token, process.env.JWTSECRET as string) as { id : string, role : string };
-
-        if(decoded.id){
-            const user = await this.userService.get(decoded.id);
+    validate = async ( id : string, role : string ) => {
+        if(role == "user"){
+            const user = await this.userService.get(id);
             if(user.email){
                 return;
             }
 
-            throw new serverError(400, "Not Authorized");
-        }
-
-        throw new serverError(400, "Please Login");
-    }
-
-    validateServiceProvider = async ( token : string ) => {
-        const decoded = jwt.verify(token, process.env.JWTSECRET as string) as { id : string, role : string };
-        if(decoded.id){
-            const serviceprovider = await this.serviceProviderService.get(decoded.id);
+            throw new serverError(400, "Please Validate Yourself");
+        }else{
+            const serviceprovider = await this.serviceProviderService.get(id);
             if(serviceprovider.email){
                 return;
             }
-
-            throw new serverError(400, "Not Authorized");
+            throw new serverError(400, "Please Validate Yourself");
         }
-
-        throw new serverError(400, "Please Login");
     }
 }
 

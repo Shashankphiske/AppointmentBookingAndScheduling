@@ -6,7 +6,7 @@ class userControllerClass {
 
     createUser = async (req : Request, res : Response) => {
         const data = await this.userServices.createUser(req.body);
-        res.cookie("token", data.token, {maxAge : 604800, sameSite : true, httpOnly : true});
+        res.cookie("token", data.token, {maxAge : 7 * 24 * 60 * 60 * 1000, sameSite : true, httpOnly : true});
         return res.send(data.user);
     }
 
