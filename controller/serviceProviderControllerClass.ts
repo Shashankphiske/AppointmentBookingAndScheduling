@@ -5,8 +5,9 @@ class serviceProviderControllerClass {
     constructor (private serviceProviderServices : serviceProviderServiceClass) {};
 
     createServiceProvider = async (req : Request, res : Response) => {
-        const serviceprovider = await this.serviceProviderServices.createServiceProvider(req.body);
-        return res.send(serviceprovider);
+        const data = await this.serviceProviderServices.createServiceProvider(req.body);
+        res.cookie("token", data.token, {maxAge : 7 * 24 * 60 * 60 * 1000, sameSite : true, httpOnly : true})
+        return res.send(data.serviceProvider);
     }
 
     getServiceProvider = async (req : Request, res : Response) => {

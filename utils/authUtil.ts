@@ -29,8 +29,8 @@ class authUtilClass {
         return hashed;
     }
 
-    generateToken = (id : string) => {
-        return jwt.sign( { id }, process.env.JWTSECRET as string, { expiresIn: "1d" });
+    generateToken = (id : string, role : string) => {
+        return jwt.sign( { id, role }, process.env.JWTSECRET as string, { expiresIn: "1d" });
     }
 
     logout = (req : Request, res : Response) => {

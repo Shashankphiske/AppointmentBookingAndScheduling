@@ -5,6 +5,7 @@ abstract class serviceproviderGeneralMethodsClass {
     abstract get (id : string) : Promise<baseServiceProvider>;
     abstract getAll () : Promise<baseServiceProvider[]>;
     abstract delete (id : string) : Promise <baseServiceProvider>;
+    abstract getByEmail ( email : string ) : Promise<baseServiceProvider>;
 }
 
 export { serviceproviderGeneralMethodsClass };

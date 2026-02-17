@@ -15,7 +15,7 @@ interface mongoAppointmentModel extends appointmentType, mongoose.Document{};
 
 const appointmentModel = new mongoose.Schema<mongoAppointmentModel>({
     name : { type : String },
-    status : { type : String },
+    status : { type : String, enum : ["scheduled", "cancelled", "completed"] },
     date : { type : String },
     time : { type : String },
     serviceProviderEmail : { type : String },

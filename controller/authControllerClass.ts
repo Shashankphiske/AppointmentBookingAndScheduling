@@ -16,16 +16,22 @@ class authControllerClass {
         })
     }
 
-    validate = async ( req : Request, res : Response, next : NextFunction ) => {
-        if(req.path != "/auth/login"){
-            if(req.cookies.token){
-                await this.authServices.validate(req.cookies.token);
-                return next();
-            }
-
-            throw new serverError(400, "Please validate yourself");
+    validateUser = async ( req : Request, res : Response, next : NextFunction ) => {
+        if(req.cookies.token){
+            await this.authServices.validateUser(req.cookies.token);
+            return next();
         }
-        next();
+
+        throw new serverError(400, "Please validate yourself");
+    }
+
+    validateServiceProvider = async ( req : Request, res : Response, next : NextFunction ) => {
+        if(req.cookies.token){
+            await this.authServices.validateServiceProvider(req.cookies.token);
+            return next();
+        }
+
+        throw new serverError(400, "Please validate yourself");
     }
 
     logout = async (req : Request, res : Response) => {

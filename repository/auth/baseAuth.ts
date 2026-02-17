@@ -1,6 +1,12 @@
 interface baseAuth {
     email : string,
-    password : string
+    password : string,
+    role : string
 }
 
-export type { baseAuth };
+interface baseToken {
+    token : string,
+    role : string
+}
+
+export type { baseAuth, baseToken };

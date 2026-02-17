@@ -25,7 +25,6 @@ app.get("/", (req, res) => {
 } )
 
 app.use(globalErrorHandler.validateBody);
-// app.use(errorHandler.controllerWrapper(authController.validate));
 
 app.use("/user", userRouter);
 app.use("/appointment", appointmentRouter);

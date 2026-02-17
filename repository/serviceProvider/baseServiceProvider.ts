@@ -4,6 +4,13 @@ interface baseServiceProvider {
     _id ? : ObjectId;
     name : string;
     email : string;
+    role : string;
+    password : string;
+}
+
+interface createServiceProvider {
+    serviceProvider : baseServiceProvider;
+    token : string;
 }
 
 export type { baseServiceProvider };

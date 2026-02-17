@@ -27,6 +27,11 @@ class serviceProviderMongoRepoClass extends serviceproviderGeneralMethodsClass{
 
         return serviceprovider ?? <baseServiceProvider>{}
     }
+
+    async getByEmail(email: string): Promise<baseServiceProvider> {
+        const serviceprovider = await ServiceProvider.findOne({ email : email });
+        return serviceprovider ?? <baseServiceProvider>{};
+    }
 }
 
 export { serviceProviderMongoRepoClass }

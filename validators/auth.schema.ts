@@ -3,7 +3,8 @@ import { z } from "zod";
 const authLoginSchema = z.object({
     body : z.object({
         email : z.string({ error : "Email is required" }),
-        password : z.string({ error : "Password is required" })
+        password : z.string({ error : "Password is required" }),
+        role : z.string({ error : "Role is required" })
     })
 });
 

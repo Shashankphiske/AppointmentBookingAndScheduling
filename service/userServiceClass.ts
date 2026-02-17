@@ -17,11 +17,11 @@ class userServiceClass {
 
         const user = await this.userMethods.create({
             ...data,
-            password : hashedPass
+            password : hashedPass,
         });
         
         if(user){
-            const token = authUtil.generateToken(user._id?.toString() ?? "");
+            const token = authUtil.generateToken(user._id?.toString() ?? "", "user");
             email.send(user.email, "Welcome !");
             logActivity.log("New User Created");
             return { user, token};
