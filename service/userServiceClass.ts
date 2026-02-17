@@ -9,13 +9,16 @@ class userServiceClass {
     createUser = async (data : baseUser) => {
 
         const existing = await this.userMethods.getByEmail(data.email);
-        if(existing){
+        if(existing.email){
             throw new serverError(400, "User with the specified email already exists");
         }
 
         const hashedPass = await authUtil.hashPass(data.password);
 
-        const user = await this.userMethods.create(data);
+        const user = await this.userMethods.create({
+            ...data,
+            password : hashedPass
+        });
         
         if(user){
             const token = authUtil.generateToken(user._id?.toString() ?? "");
@@ -57,6 +60,7 @@ class userServiceClass {
 
         throw new serverError(400, `No user found with the id : ${id}`);
     }
+
     
 }
 

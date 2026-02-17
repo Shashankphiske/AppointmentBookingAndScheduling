@@ -30,7 +30,7 @@ class authUtilClass {
     }
 
     generateToken = (id : string) => {
-        return jwt.sign(id, process.env.JWTSECRET as string, { expiresIn: "1d" });
+        return jwt.sign( { id }, process.env.JWTSECRET as string, { expiresIn: "1d" });
     }
 
     logout = (req : Request, res : Response) => {

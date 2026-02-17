@@ -1,9 +1,43 @@
-import express from "express"
-import { authUtil } from "../factory/authFactory.js";
+import type { authServiceClass } from "../service/authServiceClass.js";
+import type { Request, Response, NextFunction } from "express"
+import { serverError } from "../utils/errorUtil.js";
+import { logActivity } from "../factory/utilFactory.js";
 
-const authRouter = express();
+class authControllerClass {
+    constructor ( private authServices : authServiceClass ) {}
 
-authRouter.post("/login", );
-authRouter.get("/logout", authUtil.logout);
+    login = async ( req : Request, res : Response ) => {
 
-export { authRouter };
+        const token = await this.authServices.login(req.body);
+        res.cookie("token", token, {maxAge : 7 * 24 * 60 * 60 * 1000, sameSite : true, httpOnly : true});
+
+        return res.status(200).json({
+            message : "Success"
+        })
+    }
+
+    validate = async ( req : Request, res : Response, next : NextFunction ) => {
+        if(req.path != "/auth/login"){
+            if(req.cookies.token){
+                await this.authServices.validate(req.cookies.token);
+                return next();
+            }
+
+            throw new serverError(400, "Please validate yourself");
+        }
+        next();
+    }
+
+    logout = async (req : Request, res : Response) => {
+
+        res.clearCookie("token");
+
+        logActivity.log("User logged out");
+
+        return res.status(200).json({
+            message : "Success"
+        });
+    }
+}
+
+export { authControllerClass }
