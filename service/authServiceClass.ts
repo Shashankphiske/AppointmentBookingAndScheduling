@@ -1,9 +1,8 @@
 import { authUtil } from "../factory/authFactory.js";
-import type { baseAuth, baseToken } from "../repository/auth/baseAuth.js";
+import type { baseAuth } from "../repository/auth/baseAuth.js";
 import type { userGeneralMethodsClass } from "../repository/user/userGeneralMethods.js";
 import bcrypt from "bcrypt";
 import { serverError } from "../utils/errorUtil.js";
-import jwt from "jsonwebtoken";
 import { logActivity } from "../factory/utilFactory.js";
 import type { serviceproviderGeneralMethodsClass } from "../repository/serviceProvider/serviceProviderGeneralMethods.js";
 
@@ -34,7 +33,7 @@ class authServiceClass {
                 const flag = await bcrypt.compare( data.password, pass );
 
                 if(flag){
-                    logActivity.log(`User logged in with the id : ${serviceprovider._id}`);
+                    logActivity.log(`Service PRovider logged in with the id : ${serviceprovider._id}`);
                     const token = authUtil.generateToken( serviceprovider?._id?.toString() ?? "", "serviceProvider" );
                     return token;
                 }

@@ -30,7 +30,7 @@ class serviceProviderServiceClass {
 
     getServiceProvider = async (id : string) => {
         const serviceProvider = await this.serviceProviderMethods.get(id);
-        if(serviceProvider){
+        if(serviceProvider.email){
             logActivity.log("Service Provider Fetched");
             return serviceProvider;
         }
@@ -50,13 +50,23 @@ class serviceProviderServiceClass {
 
     deleteServiceProvider = async (id : string) => {
         const serviceProvider = await this.serviceProviderMethods.delete(id);
-        if(serviceProvider){
+        if(serviceProvider.email){
             email.send(serviceProvider.email, "Your account has been deleted");
             logActivity.log("Service Provider Deleted");
             return serviceProvider;
         }
 
         throw new serverError(400, `No service provider found with the id : ${id}`);
+    }
+
+    getByEmail = async (email : string) => {
+        const serviceProvider = await this.serviceProviderMethods.getByEmail(email);
+        if(serviceProvider.email){
+            logActivity.log("Service provider fetched using email");
+            return serviceProvider;
+        }
+
+        throw new serverError(400, "Service provider with the specified email does not exist");
     }
 }
 

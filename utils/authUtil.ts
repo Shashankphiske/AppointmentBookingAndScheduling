@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express"
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { serverError } from "./errorUtil.js";
 
 class authUtilClass {
 
@@ -24,6 +25,15 @@ class authUtilClass {
         return res.status(200).json({
             message : "Successfully logged out"
         });
+    }
+
+    checkAuthorization = ( token : string, auth : string ) => {
+        const { id, role } = this.decodeToken(token);
+        if(role == auth){
+            return;
+        }
+
+        throw new serverError(400, "Not Authorized");
     }
 }
 

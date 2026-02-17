@@ -1,4 +1,3 @@
-import type { ObjectId } from "mongodb";
 
 interface sendMail {
     send(to : string, message : string) : void;

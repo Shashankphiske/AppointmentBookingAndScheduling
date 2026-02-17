@@ -1,10 +1,12 @@
+import { authUtil } from "../factory/authFactory.js";
 import type { appointmentServiceClass } from "../service/appointmentServiceClass.js";
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 
 class appointmentControllerClass {
     constructor (private appointmentServices : appointmentServiceClass) {};
 
     createAppointment = async (req : Request, res : Response) => {
+        authUtil.checkAuthorization(req.cookies.token, "user");
         const appointment = await this.appointmentServices.createAppointment(req.body);
         return res.send(appointment);
     }
@@ -27,6 +29,13 @@ class appointmentControllerClass {
     deleteAppointment = async (req : Request, res : Response) => {
         const appointment = await this.appointmentServices.deleteAppointment(req.body.id);
         return res.send(appointment);
+    }
+
+    checkExistence = async (req : Request, res : Response, next : NextFunction) => {
+        if(req.method == "GET" || req.method == "DELETE"){
+            return next();
+        }
+        await this.appointmentServices.checkExistence(req.body);
     }
 }
 

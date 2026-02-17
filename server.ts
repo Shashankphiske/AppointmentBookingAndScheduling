@@ -7,9 +7,8 @@ import { connectDb } from "./db/db.js";
 import { userRouter } from "./router/userRouter.js";
 import { appointmentRouter } from "./router/appointmentRouter.js";
 import { serviceProviderRouter } from "./router/serviceProviderRouter.js";
-import { errorHandler, globalErrorHandler } from "./factory/utilFactory.js";
+import { globalErrorHandler } from "./factory/utilFactory.js";
 import { authRouter } from "./router/authRouter.js";
-import { authController } from "./factory/authFactory.js";
 
 const app = express();
 app.use(express.json());

@@ -2,11 +2,17 @@ import { email, logActivity } from "../factory/utilFactory.js";
 import type { appointmentGeneralMethodsClass } from "../repository/appointment/appointmentGeneralMethods.js";
 import type { baseAppointment } from "../repository/appointment/baseAppointment.js";
 import { serverError } from "../utils/errorUtil.js";
+import { userGeneralMethodsClass } from "../repository/user/userGeneralMethods.js";
+import { serviceproviderGeneralMethodsClass } from "../repository/serviceProvider/serviceProviderGeneralMethods.js";
+
 
 class appointmentServiceClass {
-    constructor (private appointmentMethods : appointmentGeneralMethodsClass ) {};
+    constructor (private appointmentMethods : appointmentGeneralMethodsClass, private userMethods : userGeneralMethodsClass, private servicePMethods : serviceproviderGeneralMethodsClass ) {};
 
     createAppointment = async (data : baseAppointment) => {
+
+        await this.checkExistence(data);
+
         const appointment = await this.appointmentMethods.create(data);
 
         if(appointment){
@@ -39,6 +45,7 @@ class appointmentServiceClass {
     }
 
     updateAppointment = async (data : baseAppointment) => {
+        await this.checkExistence(data);
         const appointment = await this.appointmentMethods.update(data);
         if(appointment){
             logActivity.log("Appointment Updated");
@@ -57,6 +64,19 @@ class appointmentServiceClass {
             return appointment;
         }
         throw new serverError(400, `No appointment found with the id : ${id} `);
+    }
+
+    checkExistence = async ( data : baseAppointment ) => {
+        if(data.userEmail){
+            const user = await this.userMethods.getByEmail(data.userEmail);
+            if(!user.email) throw new serverError(400, "User does not exist");
+        }
+        if(data.serviceProviderEmail){
+            const serviceP = await this.servicePMethods.getByEmail(data.serviceProviderEmail);
+            if(!serviceP.email) throw new serverError(400, "Service Provider does not exist");
+        }
+
+        return;
     }
 }
 

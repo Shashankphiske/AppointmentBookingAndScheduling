@@ -61,7 +61,15 @@ class userServiceClass {
         throw new serverError(400, `No user found with the id : ${id}`);
     }
 
-    
+    getByEmail = async (email : string) => {
+        const user = await this.userMethods.getByEmail(email);
+        if(user.email){
+            logActivity.log("User fetched using email");
+            return user;
+        }
+
+        throw new serverError(400, "User with specified email does not exist");
+    }
 }
 
 export { userServiceClass };

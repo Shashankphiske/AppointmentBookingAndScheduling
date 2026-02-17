@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import type { ObjectId } from "mongodb";
-import type { baseService } from "../repository/serviceProvider/baseServiceProvider.js";
 
 interface serviceProviderType {
     _id : ObjectId
