@@ -7,7 +7,7 @@ import { serverError } from "../utils/errorUtil.js";
 class userServiceClass {
     constructor (private userMethods : userGeneralMethodsClass) {}
     createUser = async (data : baseUser) => {
-
+        
         const existing = await this.userMethods.getByEmail(data.email);
         if(existing.email){
             throw new serverError(400, "User with the specified email already exists");

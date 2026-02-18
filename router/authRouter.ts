@@ -8,7 +8,7 @@ const authRouter = express.Router();
 
 authRouter.post("/login", errorHandler.controllerWrapper(validate(authLoginSchema)), errorHandler.controllerWrapper(authController.login));
 authRouter.get("/logout", errorHandler.controllerWrapper(validate(authLogoutSchema)), errorHandler.controllerWrapper(authController.logout));
-authRouter.post("/forgetpass", errorHandler.controllerWrapper(validate(authForgetSchema)), errorHandler.controllerWrapper(authController));
+authRouter.post("/forgetpass", errorHandler.controllerWrapper(validate(authForgetSchema)), errorHandler.controllerWrapper(authController.forget));
 authRouter.post("/resetpass/:token", errorHandler.controllerWrapper(validate(authResetPassSchema)), errorHandler.controllerWrapper(authController.resetPass));
 
 export { authRouter };

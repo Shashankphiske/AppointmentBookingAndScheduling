@@ -75,7 +75,7 @@ class authServiceClass {
         if(!person._id) throw new serverError(400, "No user or service provider found with the email");
         const token = authUtil.generateForgetToken(mail, role);
         email.send(mail, `to reset pass follow the link : http:/localhost:${process.env.PORT}/${token}`);
-        return `to reset pass follow the link : http:/localhost:${process.env.PORT}/${token}`;
+        return `to reset pass follow the link : http:/localhost:${process.env.PORT}/auth/resetpass/${token}`;
     }
 
     resetPass = async (token : string, password : string) => {
@@ -88,6 +88,7 @@ class authServiceClass {
             const data = <baseUser>{}
             person = await this.userService.update({
                 ...data,
+                email : mail,
                 password : hashedPass,
                 passFlag : true
             })
@@ -98,6 +99,7 @@ class authServiceClass {
             const data = <baseServiceProvider>{}
             person = await this.serviceProviderService.update({
                 ...data,
+                email : mail,
                 password : hashedPass,
                 passFlag : true
             });

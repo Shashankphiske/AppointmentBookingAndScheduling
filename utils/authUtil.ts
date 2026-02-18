@@ -19,8 +19,8 @@ class authUtilClass {
         return jwt.sign( { id, role }, process.env.JWTSECRET as string, { expiresIn: "1d" });
     }
 
-    generateForgetToken = ( email : string, role : string ) => {
-        return jwt.sign( {email, role}, process.env.JWTSECRET as string, { expiresIn : "1d" } );
+    generateForgetToken = ( mail : string, role : string ) => {
+        return jwt.sign( {mail, role}, process.env.JWTSECRET as string, { expiresIn : "1d" } );
     }
 
     decodeForgetToken = (token : string) => {
