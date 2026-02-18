@@ -8,6 +8,13 @@ interface baseService {
     description : string;
 }
 
+interface baseAvailability {
+    workingDays : string[],
+    startTime : string,
+    endTime : string,
+    duration : number
+}
+
 interface baseServiceProvider {
     _id ? : ObjectId;
     name : string;
@@ -18,8 +25,9 @@ interface baseServiceProvider {
     serviceName : string,
     duration : number,
     price : number,
-    description : string
-    passFlag? : boolean
+    description : string,
+    passFlag? : boolean,
+    availability? : baseAvailability
 }
 
 export type { baseServiceProvider, baseService };

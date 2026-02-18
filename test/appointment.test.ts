@@ -1,6 +1,5 @@
 import { appointmentServiceClass } from "../service/appointmentServiceClass";
 import { email, logActivity } from "../factory/utilFactory";
-import { serverError } from "../utils/errorUtil";
 
 jest.mock("../factory/utilFactory", () => ({
   email: {
