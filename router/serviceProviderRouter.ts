@@ -1,10 +1,10 @@
 import express from "express"
-import { errorHandler } from "../factory/utilFactory.js";
-import { serviceProviderController } from "../factory/serviceProviderFactory.js";
-import { validate } from "../middleware/validation.js";
-import { createServicePSchema, deleteServicePSchema, getServicePSchema } from "../validators/serviceProvider.schema.js";
-import { authController } from "../factory/authFactory.js";
-import { authLogoutSchema } from "../validators/auth.schema.js";
+import { errorHandler } from "../factory/utilFactory";
+import { serviceProviderController } from "../factory/serviceProviderFactory";
+import { validate } from "../middleware/validation";
+import { createServicePSchema, deleteServicePSchema, getServicePSchema } from "../validators/serviceProvider.schema";
+import { authController } from "../factory/authFactory";
+import { authLogoutSchema } from "../validators/auth.schema";
 
 const serviceProviderRouter = express.Router();
 

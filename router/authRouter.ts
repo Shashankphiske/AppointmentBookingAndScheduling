@@ -1,8 +1,8 @@
 import express from "express"
-import { authController } from "../factory/authFactory.js";
-import { errorHandler } from "../factory/utilFactory.js";
-import { validate } from "../middleware/validation.js";
-import { authForgetSchema, authLoginSchema, authLogoutSchema, authResetPassSchema } from "../validators/auth.schema.js";
+import { authController } from "../factory/authFactory";
+import { errorHandler } from "../factory/utilFactory";
+import { validate } from "../middleware/validation";
+import { authForgetSchema, authLoginSchema, authLogoutSchema, authResetPassSchema } from "../validators/auth.schema";
 
 const authRouter = express.Router();
 

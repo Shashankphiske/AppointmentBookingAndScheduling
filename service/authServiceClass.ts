@@ -1,12 +1,12 @@
-import { authUtil } from "../factory/authFactory.js";
-import type { baseAuth } from "../repository/auth/baseAuth.js";
-import type { userGeneralMethodsClass } from "../repository/user/userGeneralMethods.js";
+import { authUtil } from "../factory/authFactory";
+import type { baseAuth } from "../repository/auth/baseAuth";
+import type { userGeneralMethodsClass } from "../repository/user/userGeneralMethods";
 import bcrypt from "bcrypt";
-import { serverError } from "../utils/errorUtil.js";
-import { logActivity, email } from "../factory/utilFactory.js";
-import type { serviceproviderGeneralMethodsClass } from "../repository/serviceProvider/serviceProviderGeneralMethods.js";
-import type { baseServiceProvider } from "../repository/serviceProvider/baseServiceProvider.js";
-import type { baseUser } from "../repository/user/baseUser.js";
+import { serverError } from "../utils/errorUtil";
+import { logActivity, email } from "../factory/utilFactory";
+import type { serviceproviderGeneralMethodsClass } from "../repository/serviceProvider/serviceProviderGeneralMethods";
+import type { baseServiceProvider } from "../repository/serviceProvider/baseServiceProvider";
+import type { baseUser } from "../repository/user/baseUser";
 
 class authServiceClass {
     constructor ( private userService : userGeneralMethodsClass, private serviceProviderService : serviceproviderGeneralMethodsClass ) {};
@@ -105,8 +105,7 @@ class authServiceClass {
             });
         }
         logActivity.log("Password Changed");
-        return person;
-        
+        return person;   
     }
 }
 

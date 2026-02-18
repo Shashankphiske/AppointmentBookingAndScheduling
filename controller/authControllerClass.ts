@@ -1,8 +1,8 @@
-import type { authServiceClass } from "../service/authServiceClass.js";
+import type { authServiceClass } from "../service/authServiceClass";
 import type { Request, Response, NextFunction } from "express"
-import { serverError } from "../utils/errorUtil.js";
-import { logActivity } from "../factory/utilFactory.js";
-import { authUtil } from "../factory/authFactory.js";
+import { serverError } from "../utils/errorUtil";
+import { logActivity } from "../factory/utilFactory";
+import { authUtil } from "../factory/authFactory";
 
 class authControllerClass {
     constructor ( private authServices : authServiceClass ) {}

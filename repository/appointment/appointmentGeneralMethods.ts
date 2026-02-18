@@ -1,4 +1,4 @@
-import type { baseAppointment } from "./baseAppointment.js";
+import type { baseAppointment } from "./baseAppointment";
 
 abstract class appointmentGeneralMethodsClass {
     abstract create (data : baseAppointment) : Promise<baseAppointment>;

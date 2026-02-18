@@ -1,7 +1,7 @@
-import { emailClass, smsClass } from "../utils/emailUtil.js";
-import { errorHandlerClass, globalErrorHandlerClass } from "../utils/errorUtil.js";
-import { logActivityClass, logErrorClass } from "../utils/logUtil.js";
-import { validationUtilsClass } from "../utils/validationUtils.js";
+import { emailClass, smsClass } from "../utils/emailUtil";
+import { errorHandlerClass, globalErrorHandlerClass } from "../utils/errorUtil";
+import { logActivityClass, logErrorClass } from "../utils/logUtil";
+import { validationUtilsClass } from "../utils/validationUtils";
 
 const logError = new logErrorClass();
 const logActivity = new logActivityClass();

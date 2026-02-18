@@ -1,8 +1,8 @@
-import { appointmentControllerClass } from "../controller/appointmentControllerClass.js";
-import { appointmentMongoRepoClass } from "../repository/appointment/appointmentMongoRepo.js";
-import { serviceProviderMongoRepoClass } from "../repository/serviceProvider/serviceProviderMongoRepo.js";
-import { userMongoRepoClass } from "../repository/user/userMongoRepo.js";
-import { appointmentServiceClass } from "../service/appointmentServiceClass.js";
+import { appointmentControllerClass } from "../controller/appointmentControllerClass";
+import { appointmentMongoRepoClass } from "../repository/appointment/appointmentMongoRepo";
+import { serviceProviderMongoRepoClass } from "../repository/serviceProvider/serviceProviderMongoRepo";
+import { userMongoRepoClass } from "../repository/user/userMongoRepo";
+import { appointmentServiceClass } from "../service/appointmentServiceClass";
 
 const appointmentMongoRepo = new appointmentMongoRepoClass();
 const userMongoRepo = new userMongoRepoClass();

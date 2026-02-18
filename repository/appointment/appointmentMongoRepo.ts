@@ -1,6 +1,6 @@
-import { Appointment } from "../../models/appointmentModel.js";
-import { appointmentGeneralMethodsClass } from "./appointmentGeneralMethods.js";
-import type { baseAppointment } from "./baseAppointment.js";
+import { Appointment } from "../../models/appointmentModel";
+import { appointmentGeneralMethodsClass } from "./appointmentGeneralMethods";
+import type { baseAppointment } from "./baseAppointment";
 
 class appointmentMongoRepoClass extends appointmentGeneralMethodsClass {
     

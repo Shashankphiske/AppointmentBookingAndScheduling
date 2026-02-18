@@ -1,6 +1,6 @@
-import { ServiceProvider } from "../../models/serviceProviderModel.js";
-import type { baseServiceProvider } from "./baseServiceProvider.js";
-import { serviceproviderGeneralMethodsClass } from "./serviceProviderGeneralMethods.js";
+import { ServiceProvider } from "../../models/serviceProviderModel";
+import type { baseServiceProvider } from "./baseServiceProvider";
+import { serviceproviderGeneralMethodsClass } from "./serviceProviderGeneralMethods";
 
 class serviceProviderMongoRepoClass extends serviceproviderGeneralMethodsClass{
     async create (data : baseServiceProvider) : Promise<baseServiceProvider> {

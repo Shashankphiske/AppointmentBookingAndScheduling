@@ -1,8 +1,8 @@
-import { authControllerClass } from "../controller/authControllerClass.js";
-import { serviceProviderMongoRepoClass } from "../repository/serviceProvider/serviceProviderMongoRepo.js";
-import { userMongoRepoClass } from "../repository/user/userMongoRepo.js";
-import { authServiceClass } from "../service/authServiceClass.js";
-import { authUtilClass } from "../utils/authUtil.js";
+import { authControllerClass } from "../controller/authControllerClass";
+import { serviceProviderMongoRepoClass } from "../repository/serviceProvider/serviceProviderMongoRepo";
+import { userMongoRepoClass } from "../repository/user/userMongoRepo";
+import { authServiceClass } from "../service/authServiceClass";
+import { authUtilClass } from "../utils/authUtil";
 
 
 

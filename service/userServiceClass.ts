@@ -1,13 +1,13 @@
-import { authUtil } from "../factory/authFactory.js";
-import { email, logActivity } from "../factory/utilFactory.js";
-import type { baseUser } from "../repository/user/baseUser.js";
-import { userGeneralMethodsClass } from "../repository/user/userGeneralMethods.js";
-import { serverError } from "../utils/errorUtil.js";
+import { authUtil } from "../factory/authFactory";
+import { email, logActivity } from "../factory/utilFactory";
+import type { baseUser } from "../repository/user/baseUser";
+import { userGeneralMethodsClass } from "../repository/user/userGeneralMethods";
+import { serverError } from "../utils/errorUtil";
 
 class userServiceClass {
     constructor (private userMethods : userGeneralMethodsClass) {}
     createUser = async (data : baseUser) => {
-        
+
         const existing = await this.userMethods.getByEmail(data.email);
         if(existing.email){
             throw new serverError(400, "User with the specified email already exists");

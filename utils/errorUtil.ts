@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { logError } from "../factory/utilFactory.js";
+import { logError } from "../factory/utilFactory";
 
 class serverError extends Error{
     public status : number;

@@ -1,10 +1,10 @@
 import express from "express";
-import { errorHandler } from "../factory/utilFactory.js";
-import { appointmentController } from "../factory/appointmentFactory.js";
-import { validate } from "../middleware/validation.js";
-import { createAppointmentSchema, getAppointmentSchema, updateAppointmentSchema } from "../validators/appointment.schema.js";
-import { authController } from "../factory/authFactory.js";
-import { authLogoutSchema } from "../validators/auth.schema.js";
+import { errorHandler } from "../factory/utilFactory";
+import { appointmentController } from "../factory/appointmentFactory";
+import { validate } from "../middleware/validation";
+import { createAppointmentSchema, getAppointmentSchema, updateAppointmentSchema } from "../validators/appointment.schema";
+import { authController } from "../factory/authFactory";
+import { authLogoutSchema } from "../validators/auth.schema";
 
 const appointmentRouter = express.Router();
 

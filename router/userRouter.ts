@@ -1,10 +1,10 @@
 import express from "express"
-import { errorHandler } from "../factory/utilFactory.js";
-import { userController } from "../factory/userFactory.js";
-import { validate } from "../middleware/validation.js";
-import { createUserSchema, deleteUserSchema, getUserSchema } from "../validators/user.schema.js";
-import { authController } from "../factory/authFactory.js";
-import { authLogoutSchema } from "../validators/auth.schema.js";
+import { errorHandler } from "../factory/utilFactory";
+import { userController } from "../factory/userFactory";
+import { validate } from "../middleware/validation";
+import { createUserSchema, deleteUserSchema, getUserSchema } from "../validators/user.schema";
+import { authController } from "../factory/authFactory";
+import { authLogoutSchema } from "../validators/auth.schema";
 
 const userRouter = express.Router();
 

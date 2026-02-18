@@ -1,4 +1,4 @@
-import type { serviceProviderServiceClass } from "../service/serviceProviderServiceClass.js";
+import type { serviceProviderServiceClass } from "../service/serviceProviderServiceClass";
 import type { Request, Response } from "express";
 
 class serviceProviderControllerClass {

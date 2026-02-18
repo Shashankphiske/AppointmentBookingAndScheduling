@@ -1,9 +1,9 @@
-import { email, logActivity } from "../factory/utilFactory.js";
-import type { appointmentGeneralMethodsClass } from "../repository/appointment/appointmentGeneralMethods.js";
-import type { baseAppointment } from "../repository/appointment/baseAppointment.js";
-import { serverError } from "../utils/errorUtil.js";
-import { userGeneralMethodsClass } from "../repository/user/userGeneralMethods.js";
-import { serviceproviderGeneralMethodsClass } from "../repository/serviceProvider/serviceProviderGeneralMethods.js";
+import { email, logActivity } from "../factory/utilFactory";
+import type { appointmentGeneralMethodsClass } from "../repository/appointment/appointmentGeneralMethods";
+import type { baseAppointment } from "../repository/appointment/baseAppointment";
+import { serverError } from "../utils/errorUtil";
+import { userGeneralMethodsClass } from "../repository/user/userGeneralMethods";
+import { serviceproviderGeneralMethodsClass } from "../repository/serviceProvider/serviceProviderGeneralMethods";
 
 
 class appointmentServiceClass {

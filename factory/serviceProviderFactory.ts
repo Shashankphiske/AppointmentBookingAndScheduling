@@ -1,6 +1,6 @@
-import { serviceProviderControllerClass } from "../controller/serviceProviderControllerClass.js";
-import { serviceProviderMongoRepoClass } from "../repository/serviceProvider/serviceProviderMongoRepo.js";
-import { serviceProviderServiceClass } from "../service/serviceProviderServiceClass.js";
+import { serviceProviderControllerClass } from "../controller/serviceProviderControllerClass";
+import { serviceProviderMongoRepoClass } from "../repository/serviceProvider/serviceProviderMongoRepo";
+import { serviceProviderServiceClass } from "../service/serviceProviderServiceClass";
 
 const serviceProviderMongoRepo = new serviceProviderMongoRepoClass();
 const serviceProviderServices = new serviceProviderServiceClass(serviceProviderMongoRepo);

@@ -1,5 +1,5 @@
-import { authUtil } from "../factory/authFactory.js";
-import type { appointmentServiceClass } from "../service/appointmentServiceClass.js";
+import { authUtil } from "../factory/authFactory";
+import type { appointmentServiceClass } from "../service/appointmentServiceClass";
 import type { NextFunction, Request, Response } from "express";
 
 class appointmentControllerClass {

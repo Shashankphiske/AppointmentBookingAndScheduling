@@ -1,8 +1,8 @@
-import { authUtil } from "../factory/authFactory.js";
-import { email, logActivity } from "../factory/utilFactory.js";
-import type { baseServiceProvider } from "../repository/serviceProvider/baseServiceProvider.js";
-import type { serviceproviderGeneralMethodsClass } from "../repository/serviceProvider/serviceProviderGeneralMethods.js";
-import { serverError } from "../utils/errorUtil.js";
+import { authUtil } from "../factory/authFactory";
+import { email, logActivity } from "../factory/utilFactory";
+import type { baseServiceProvider } from "../repository/serviceProvider/baseServiceProvider";
+import type { serviceproviderGeneralMethodsClass } from "../repository/serviceProvider/serviceProviderGeneralMethods";
+import { serverError } from "../utils/errorUtil";
 
 class serviceProviderServiceClass {
     constructor (private serviceProviderMethods : serviceproviderGeneralMethodsClass) {};

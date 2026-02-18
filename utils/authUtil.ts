@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from "express"
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { serverError } from "./errorUtil.js";
+import { serverError } from "./errorUtil";
 
 class authUtilClass {
 
