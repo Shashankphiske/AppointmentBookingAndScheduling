@@ -25,23 +25,40 @@ class appointmentServiceClass {
         throw new serverError(500, "Error while creating an appointment");
     }
 
-    getAppointment = async (id : string) => {
+    getAppointment = async (id : string, uid : string, role : string) => {
         const appointment = await this.appointmentMethods.get(id);
-        if(appointment){
-            logActivity.log("Appointment Fetched");
-            return appointment;
+        if(!appointment._id) throw new serverError(400, "No appointment found");
+        let person;
+        if(role == "serviceProvider"){
+            person = await this.servicePMethods.get(uid);
+            if(appointment.serviceProviderEmail != person.email) throw new serverError(400, "No appointment found");
+        }else if(role == "user"){
+            person = await this.userMethods.get(uid);
+            if(appointment.userEmail != person.email) throw new serverError(400, "No appointment found");
         }
-        throw new serverError(400, `No Appointment found with the id : ${id}`);
+        logActivity.log("Appointment fetched");
+        return appointment;
     }
 
-    getAllAppointments = async () => {
+    getAllAppointments = async (uid : string, role : string) => {
         const appointments = await this.appointmentMethods.getAll();
-        if(appointments.length > 0){
-            logActivity.log("All Appointments Fetched");
+        if(appointments.length == 0) throw new serverError(400, "No appointments found");
+        if(role == "admin"){
+            logActivity.log("All appointments fetched");
             return appointments;
         }
+        let filteredAppointments = <baseAppointment[]>[];
+        if(role == "user"){
+            const user = await this.userMethods.get(uid);
+            filteredAppointments = appointments.filter((a) => a.userEmail == user.email);
+        }else if(role == "serviceProvider"){
+            const serviceP = await this.servicePMethods.get(uid);
+            filteredAppointments = appointments.filter((a) => a.serviceProviderEmail == serviceP.email);
+        }
 
-        throw new serverError(400, "No appointments found");
+        if(filteredAppointments.length == 0) throw new serverError(400, "No appointments found");
+        logActivity.log("All appointments fetched");
+        return filteredAppointments;
     }
 
     updateAppointment = async (data : baseAppointment) => {

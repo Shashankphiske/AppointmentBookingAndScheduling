@@ -6,18 +6,19 @@ class appointmentControllerClass {
     constructor (private appointmentServices : appointmentServiceClass) {};
 
     createAppointment = async (req : Request, res : Response) => {
-        authUtil.checkAuthorization(req.cookies.token, "user");
         const appointment = await this.appointmentServices.createAppointment(req.body);
         return res.send(appointment);
     }
 
     getAppointment = async (req : Request, res : Response) => {
-        const appointment = await this.appointmentServices.getAppointment(req.body.id);
+        const { id, role } = authUtil.decodeToken(req.cookies.token);
+        const appointment = await this.appointmentServices.getAppointment(req.body.id, id, role);
         return res.send(appointment);
     }
 
     getAllAppointments = async (req : Request, res : Response) => {
-        const appointments = await this.appointmentServices.getAllAppointments();
+        const { id, role } = authUtil.decodeToken(req.cookies.token);
+        const appointments = await this.appointmentServices.getAllAppointments(id, role);
         return res.send(appointments);
     }
 

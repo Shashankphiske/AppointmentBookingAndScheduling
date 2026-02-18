@@ -9,11 +9,11 @@ import { authLogoutSchema } from "../validators/auth.schema.js";
 const userRouter = express.Router();
 
 userRouter.post("/create", errorHandler.controllerWrapper(validate(createUserSchema)), errorHandler.controllerWrapper(userController.createUser));
+userRouter.get("/fetch", errorHandler.controllerWrapper(userController.getAllUsers));
+userRouter.post("/fetch", errorHandler.controllerWrapper(validate(getUserSchema)), errorHandler.controllerWrapper(userController.getUser));
 
 userRouter.use(errorHandler.controllerWrapper(validate(authLogoutSchema)), errorHandler.controllerWrapper(authController.validate("user")));
 
-userRouter.post("/fetch", errorHandler.controllerWrapper(validate(getUserSchema)), errorHandler.controllerWrapper(userController.getUser));
-userRouter.get("/fetch", errorHandler.controllerWrapper(userController.getAllUsers));
 userRouter.delete("/", errorHandler.controllerWrapper(validate(deleteUserSchema)), errorHandler.controllerWrapper(userController.deleteUser));
 
 export { userRouter };

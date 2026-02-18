@@ -7,6 +7,6 @@ import { authLoginSchema, authLogoutSchema } from "../validators/auth.schema.js"
 const authRouter = express.Router();
 
 authRouter.post("/login", errorHandler.controllerWrapper(validate(authLoginSchema)), errorHandler.controllerWrapper(authController.login));
-authRouter.post("/logout", errorHandler.controllerWrapper(validate(authLogoutSchema)), errorHandler.controllerWrapper(authController.logout));
+authRouter.get("/logout", errorHandler.controllerWrapper(validate(authLogoutSchema)), errorHandler.controllerWrapper(authController.logout));
 
 export { authRouter };

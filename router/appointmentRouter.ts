@@ -7,10 +7,13 @@ import { authController } from "../factory/authFactory.js";
 import { authLogoutSchema } from "../validators/auth.schema.js";
 
 const appointmentRouter = express.Router();
-console.log("In router")
-appointmentRouter.use(errorHandler.controllerWrapper(validate(authLogoutSchema)), errorHandler.controllerWrapper(authController.validate("*")));
+
+appointmentRouter.use("/create", errorHandler.controllerWrapper(validate(authLogoutSchema)), errorHandler.controllerWrapper(authController.validate("user")));
 
 appointmentRouter.post("/create", errorHandler.controllerWrapper(validate(createAppointmentSchema)), errorHandler.controllerWrapper(appointmentController.createAppointment));
+
+appointmentRouter.use(errorHandler.controllerWrapper(validate(authLogoutSchema)), errorHandler.controllerWrapper(authController.validate("*")));
+
 appointmentRouter.post("/fetch", errorHandler.controllerWrapper(validate(getAppointmentSchema)),errorHandler.controllerWrapper(appointmentController.getAppointment));
 appointmentRouter.get("/fetch", errorHandler.controllerWrapper(appointmentController.getAllAppointments));
 appointmentRouter.put("/update", errorHandler.controllerWrapper(validate(updateAppointmentSchema)), errorHandler.controllerWrapper(appointmentController.updateAppointment));
