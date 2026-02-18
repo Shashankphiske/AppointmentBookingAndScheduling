@@ -39,6 +39,21 @@ class authControllerClass {
             message : "Success"
         });
     }
+
+    forget = async (req : Request, res : Response) => {
+        const token = req.params.token?.toString()
+        const { mail, role } = authUtil.decodeForgetToken(token ?? "");
+        const data = await this.authServices.forget(mail, role);
+
+        return res.send(data);
+    }
+
+    resetPass = async (req : Request, res : Response) => {
+        const token = req.params.token?.toString();
+        const person = await this.authServices.resetPass(token ?? "", req.body.password);
+
+        return res.send(person);
+    }
 }
 
 export { authControllerClass }

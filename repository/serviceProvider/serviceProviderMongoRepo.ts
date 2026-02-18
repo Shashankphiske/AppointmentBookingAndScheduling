@@ -30,6 +30,24 @@ class serviceProviderMongoRepoClass extends serviceproviderGeneralMethodsClass{
         const serviceprovider = await ServiceProvider.findOne({ email : email });
         return serviceprovider ?? <baseServiceProvider>{};
     }
+
+    async update (data : baseServiceProvider) : Promise<baseServiceProvider> {
+        const serviceP = await ServiceProvider.findOne({ email : data.email });
+        if(!serviceP?._id) return <baseServiceProvider>{};
+        if(data.passFlag){
+            serviceP.password = data.password || serviceP?.password;
+        }else{
+            serviceP.name = data.name || serviceP.name;
+            serviceP.phonenumber = data.phonenumber || serviceP.phonenumber;
+            serviceP.serviceName = data.serviceName || serviceP.serviceName;
+            serviceP.duration = data.duration || serviceP.duration;
+            serviceP.price = data.price || serviceP.price;
+            serviceP.description = data.description || serviceP.description;
+        }
+
+        await serviceP.save();
+        return serviceP;
+    } 
 }
 
 export { serviceProviderMongoRepoClass }

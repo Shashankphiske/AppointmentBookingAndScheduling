@@ -3,8 +3,10 @@ import type { baseAuth } from "../repository/auth/baseAuth.js";
 import type { userGeneralMethodsClass } from "../repository/user/userGeneralMethods.js";
 import bcrypt from "bcrypt";
 import { serverError } from "../utils/errorUtil.js";
-import { logActivity } from "../factory/utilFactory.js";
+import { logActivity, email } from "../factory/utilFactory.js";
 import type { serviceproviderGeneralMethodsClass } from "../repository/serviceProvider/serviceProviderGeneralMethods.js";
+import type { baseServiceProvider } from "../repository/serviceProvider/baseServiceProvider.js";
+import type { baseUser } from "../repository/user/baseUser.js";
 
 class authServiceClass {
     constructor ( private userService : userGeneralMethodsClass, private serviceProviderService : serviceproviderGeneralMethodsClass ) {};
@@ -60,6 +62,49 @@ class authServiceClass {
             }
             throw new serverError(400, "Please Validate Yourself");
         }
+    }
+
+    forget = async (mail : string, role : string) => {
+        let person : any;
+        if(role == "user"){
+            person = await this.userService.getByEmail(mail);
+        }else if(role == "serviceProvider"){
+            person = await this.serviceProviderService.getByEmail(mail);
+        }
+
+        if(!person._id) throw new serverError(400, "No user or service provider found with the email");
+        const token = authUtil.generateForgetToken(mail, role);
+        email.send(mail, `to reset pass follow the link : http:/localhost:${process.env.PORT}/${token}`);
+        return `to reset pass follow the link : http:/localhost:${process.env.PORT}/${token}`;
+    }
+
+    resetPass = async (token : string, password : string) => {
+        const { mail, role } = authUtil.decodeForgetToken(token);
+        const hashedPass = await authUtil.hashPass(password);
+        let person : any;
+        if(role == "user"){
+            person = await this.userService.getByEmail(mail);
+            if(!person._id) throw new serverError(400, "No user or service provider found with the email");
+            const data = <baseUser>{}
+            person = await this.userService.update({
+                ...data,
+                password : hashedPass,
+                passFlag : true
+            })
+
+        }else if(role == "serviceProvider"){
+            person = await this.serviceProviderService.getByEmail(mail);
+            if(!person._id) throw new serverError(400, "No user or service provider found with the email");
+            const data = <baseServiceProvider>{}
+            person = await this.serviceProviderService.update({
+                ...data,
+                password : hashedPass,
+                passFlag : true
+            });
+        }
+        logActivity.log("Password Changed");
+        return person;
+        
     }
 }
 

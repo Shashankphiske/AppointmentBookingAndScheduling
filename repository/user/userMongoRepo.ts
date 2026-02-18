@@ -29,6 +29,20 @@ class userMongoRepoClass extends userGeneralMethodsClass {
          const user = await User.findOne({ email : email });
          return user ?? <baseUser>{};
     }
+
+    async update (data : baseUser) : Promise<baseUser> {
+        const user = await User.findOne({ email : data.email });
+        if(!user?._id) return <baseUser>{};
+        if(data.passFlag){
+            user.password = data.password || user?.password;
+        }else{
+            user.name = data.name || user.name;
+            user.phonenumber = data.phonenumber || user.phonenumber;
+        }
+
+        await user.save();
+        return user;
+    }
 }
 
 export { userMongoRepoClass }

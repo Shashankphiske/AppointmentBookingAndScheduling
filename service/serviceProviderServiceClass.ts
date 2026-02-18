@@ -68,6 +68,17 @@ class serviceProviderServiceClass {
 
         throw new serverError(400, "Service provider with the specified email does not exist");
     }
+
+    update = async (data : baseServiceProvider) => {
+
+        const serviceP = await this.serviceProviderMethods.update(data);
+        if(!serviceP._id) throw new serverError(400, "Service Provider not found");
+
+        logActivity.log("data updated for service provider");
+
+        return serviceP;
+
+    }
 }
 
 export { serviceProviderServiceClass };

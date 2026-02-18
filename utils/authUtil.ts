@@ -19,6 +19,14 @@ class authUtilClass {
         return jwt.sign( { id, role }, process.env.JWTSECRET as string, { expiresIn: "1d" });
     }
 
+    generateForgetToken = ( email : string, role : string ) => {
+        return jwt.sign( {email, role}, process.env.JWTSECRET as string, { expiresIn : "1d" } );
+    }
+
+    decodeForgetToken = (token : string) => {
+        return jwt.verify(token, process.env.JWTSECRET as string ) as { mail : string, role : string }
+    }
+
     logout = (req : Request, res : Response) => {
         res.clearCookie("token");
 

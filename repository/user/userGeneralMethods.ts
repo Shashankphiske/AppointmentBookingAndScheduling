@@ -6,6 +6,7 @@ abstract class userGeneralMethodsClass {
     abstract getAll () : Promise<baseUser[]>;
     abstract delete (id : string) : Promise<baseUser>;
     abstract getByEmail (email : string) : Promise<baseUser>;
+    abstract update (data : baseUser) : Promise<baseUser>;
 }
 
 export { userGeneralMethodsClass };
