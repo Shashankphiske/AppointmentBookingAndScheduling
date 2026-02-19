@@ -2,6 +2,7 @@ import type { Request, Response, NextFunction } from "express"
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { serverError } from "./errorUtil";
+import { adminRole } from "./constantUtils";
 
 class authUtilClass {
 
@@ -37,7 +38,7 @@ class authUtilClass {
 
     checkAuthorization = ( token : string, auth : string ) => {
         const { id, role } = this.decodeToken(token);
-        if(role == auth){
+        if(role == auth || role == adminRole){
             return;
         }
 

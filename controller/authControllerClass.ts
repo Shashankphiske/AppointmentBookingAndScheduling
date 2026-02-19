@@ -3,6 +3,7 @@ import type { Request, Response, NextFunction } from "express"
 import { serverError } from "../utils/errorUtil";
 import { logActivity } from "../factory/utilFactory";
 import { authUtil } from "../factory/authFactory";
+import { adminRole } from "../utils/constantUtils";
 
 class authControllerClass {
     constructor ( private authServices : authServiceClass ) {}
@@ -20,7 +21,7 @@ class authControllerClass {
     validate = (route : string) => {
         return async ( req : Request, res : Response, next : NextFunction) => {
             const { id, role } = authUtil.decodeToken(req.cookies.token);
-            if((role === route && id === req.body.id) || route === "*"){
+            if((role === route && id === req.body?.id) || route === "*" || (role === adminRole && route == adminRole )){
                 await this.authServices.validate(id, role);
                 return next();
             }
@@ -32,7 +33,7 @@ class authControllerClass {
     validateForAppointment = (route : string) => {
         return async ( req : Request, res : Response, next : NextFunction) => {
             const { id, role } = authUtil.decodeToken(req.cookies.token);
-            if((role === route) || route === "*"){
+            if((role === route) || route === "*" || role === adminRole){
                 await this.authServices.validate(id, role);
                 return next();
             }

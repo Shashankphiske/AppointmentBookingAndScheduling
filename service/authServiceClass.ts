@@ -7,7 +7,7 @@ import { logActivity, email } from "../factory/utilFactory";
 import type { serviceproviderGeneralMethodsClass } from "../repository/serviceProvider/serviceProviderGeneralMethods";
 import type { baseServiceProvider } from "../repository/serviceProvider/baseServiceProvider";
 import type { baseUser } from "../repository/user/baseUser";
-import { serviceProviderRole, userRole } from "../utils/constantUtils";
+import { adminRole, serviceProviderRole, userRole } from "../utils/constantUtils";
 
 class authServiceClass {
     constructor ( private userService : userGeneralMethodsClass, private serviceProviderService : serviceproviderGeneralMethodsClass ) {};
@@ -21,7 +21,7 @@ class authServiceClass {
 
                 if(flag){
                     logActivity.log(`User logged in with the id : ${user._id}`);
-                    const token = authUtil.generateToken( user?._id?.toString() ?? "", "user" );
+                    const token = authUtil.generateToken( user?._id?.toString() ?? "", userRole );
                     return token;
                 }
 
@@ -37,7 +37,7 @@ class authServiceClass {
 
                 if(flag){
                     logActivity.log(`Service PRovider logged in with the id : ${serviceprovider._id}`);
-                    const token = authUtil.generateToken( serviceprovider?._id?.toString() ?? "", "serviceProvider" );
+                    const token = authUtil.generateToken( serviceprovider?._id?.toString() ?? "", serviceProviderRole);
                     return token;
                 }
 
@@ -45,6 +45,20 @@ class authServiceClass {
             }
 
             throw new serverError(400, "Incorrect credentials or email");
+        }else if(data.role == "admin") {
+            const admin = await this.userService.getByEmail(data.email);
+            if(admin.email){
+                const pass = admin.password;
+                const flag = await bcrypt.compare(data.password, pass);
+
+                if(flag){
+                    logActivity.log(`Admin logged in with the id : ${admin._id}`);
+                    const token = authUtil.generateToken(admin._id?.toString() ?? "", adminRole)
+                    return token;
+                }
+
+                throw new serverError(400, "Incorrect credentials or email");
+            }
         }
     }
 
@@ -56,12 +70,18 @@ class authServiceClass {
             }
 
             throw new serverError(400, "Please Validate Yourself");
-        }else{
+        }else if(role == serviceProviderRole){
             const serviceprovider = await this.serviceProviderService.get(id);
             if(serviceprovider.email){
                 return;
             }
             throw new serverError(400, "Please Validate Yourself");
+        }else if(role == adminRole){
+            const admin = await this.userService.get(id);
+            if(admin.email){
+                return;
+            }
+            throw new serverError(400, "Please validate yourself");
         }
     }
 
@@ -71,6 +91,8 @@ class authServiceClass {
             person = await this.userService.getByEmail(mail);
         }else if(role == serviceProviderRole){
             person = await this.serviceProviderService.getByEmail(mail);
+        }else if(role == adminRole){
+            person = await this.userService.getByEmail(mail);
         }
 
         if(!person._id) throw new serverError(400, "No user or service provider found with the email");
@@ -104,6 +126,16 @@ class authServiceClass {
                 password : hashedPass,
                 passFlag : true
             });
+        }else if(role == adminRole){
+            person = await this.userService.getByEmail(mail);
+            if(!person._id) throw new serverError(400, "No user or service provider found with the email");
+            const data = <baseServiceProvider>{}
+            person = await this.serviceProviderService.update({
+                ...data,
+                email : mail,
+                password : hashedPass,
+                passFlag : true
+            });          
         }
         logActivity.log("Password Changed");
         return person;   

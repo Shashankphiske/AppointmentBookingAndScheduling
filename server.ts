@@ -9,6 +9,7 @@ import { appointmentRouter } from "./router/appointmentRouter.js";
 import { serviceProviderRouter } from "./router/serviceProviderRouter.js";
 import { globalErrorHandler } from "./factory/utilFactory.js";
 import { authRouter } from "./router/authRouter.js";
+import { reportRouter } from "./router/reportRouter.js";
 
 const app = express();
 app.use(express.json());
@@ -29,6 +30,7 @@ app.use("/user", userRouter);
 app.use("/appointment", appointmentRouter);
 app.use("/serviceprovider", serviceProviderRouter);
 app.use("/auth", authRouter);
+app.use("/reports", reportRouter);
 
 app.use(globalErrorHandler.handleError);
 
