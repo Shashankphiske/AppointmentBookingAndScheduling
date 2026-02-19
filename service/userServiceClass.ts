@@ -50,8 +50,13 @@ class userServiceClass {
         throw new serverError(400, "No users found");
     }
 
-    deleteUser = async (id : string) => {
-        const user = await this.userMethods.delete(id);
+    deleteUser = async (did : string, token : string) => {
+
+        const { id, role } = authUtil.decodeToken(token);
+        if(id != did) throw new serverError(400, "Not Authorized");
+
+        const user = await this.userMethods.delete(did);
+    
         if(user){
             email.send(user.email, "Your account has been deleted");
             logActivity.log("User Deleted");

@@ -34,7 +34,7 @@ const serviceProviderModel = new mongoose.Schema<mongoServiceProvider>({
     price : { type : Number, default : 0 },
     duration : { type : Number, default : 0 },
     description : { type : String, default : "NA" },
-    availability : { workingDays : { Array, default : [] }, startTime : {String, default : "00:00am"}, endTime : {String, default : "00:00pm"}, slotDuration : {Number, default : 0} }
+    availability : { workingDays : { type: Array, default : [] }, startTime : {type : String, default : "NA"}, endTime : {type : String, default : "NA"}, slotDuration : {type : Number, default : 0} }
 });
 
 const ServiceProvider = mongoose.model("ServiceProvider", serviceProviderModel);

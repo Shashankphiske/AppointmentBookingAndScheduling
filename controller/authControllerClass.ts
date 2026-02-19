@@ -20,7 +20,7 @@ class authControllerClass {
     validate = (route : string) => {
         return async ( req : Request, res : Response, next : NextFunction) => {
             const { id, role } = authUtil.decodeToken(req.cookies.token);
-            if(role == route || route == "*"){
+            if((role === route && id === req.body.id) || route === "*"){
                 await this.authServices.validate(id, role);
                 return next();
             }

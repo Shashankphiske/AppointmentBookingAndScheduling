@@ -21,7 +21,7 @@ class userControllerClass {
     }
 
     deleteUser = async (req : Request, res : Response) => {
-        const user = await this.userServices.deleteUser(req.body.id);
+        const user = await this.userServices.deleteUser(req.body.id, req.cookies.token);
         res.clearCookie("token");
         return res.send(user);
     }
