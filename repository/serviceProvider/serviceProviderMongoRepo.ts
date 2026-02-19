@@ -13,8 +13,7 @@ class serviceProviderMongoRepoClass extends serviceproviderGeneralMethodsClass{
     private updateBasicDetails(serviceP: any, data: any) {
         serviceP.name = data.name ?? serviceP.name;
         serviceP.phonenumber = data.phonenumber ?? serviceP.phonenumber;
-        serviceP.serviceName = data.serviceName ?? serviceP.serviceName;
-        serviceP.duration = data.duration ?? serviceP.duration;
+        serviceP.serviceName = data.serviceName ?? serviceP.serviceName; 
         serviceP.price = data.price ?? serviceP.price;
         serviceP.description = data.description ?? serviceP.description;
     }

@@ -45,6 +45,12 @@ class appointmentMongoRepoClass extends appointmentGeneralMethodsClass {
         const appointment = await Appointment.findByIdAndDelete(id);
         return appointment ?? <baseAppointment>{};
     }
+
+    async getBooked(userEmail: string, serviceProviderEmail: string, date: Date, time: number): Promise<baseAppointment> {
+        const appointment = await Appointment.findOne({ userEmail : userEmail,serviceProviderEmail : serviceProviderEmail, date : date, time: time });
+
+        return appointment ?? <baseAppointment>{};
+    }
 }
 
 export { appointmentMongoRepoClass };

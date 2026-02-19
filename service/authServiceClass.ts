@@ -7,12 +7,13 @@ import { logActivity, email } from "../factory/utilFactory";
 import type { serviceproviderGeneralMethodsClass } from "../repository/serviceProvider/serviceProviderGeneralMethods";
 import type { baseServiceProvider } from "../repository/serviceProvider/baseServiceProvider";
 import type { baseUser } from "../repository/user/baseUser";
+import { serviceProviderRole, userRole } from "../utils/constantUtils";
 
 class authServiceClass {
     constructor ( private userService : userGeneralMethodsClass, private serviceProviderService : serviceproviderGeneralMethodsClass ) {};
 
     login = async ( data : baseAuth ) => {
-        if(data.role == "user"){
+        if(data.role == userRole){
             const user = await this.userService.getByEmail(data.email);
             if(user.email){
                 const pass = user.password;
@@ -28,7 +29,7 @@ class authServiceClass {
             }
 
             throw new serverError(400, "Incorrect credentials or email");
-        }else{
+        }else if(data.role == serviceProviderRole){
             const serviceprovider = await this.serviceProviderService.getByEmail(data.email);
             if(serviceprovider.email){
                 const pass = serviceprovider.password;
@@ -48,7 +49,7 @@ class authServiceClass {
     }
 
     validate = async ( id : string, role : string ) => {
-        if(role == "user"){
+        if(role == userRole){
             const user = await this.userService.get(id);
             if(user.email){
                 return;
@@ -66,9 +67,9 @@ class authServiceClass {
 
     forget = async (mail : string, role : string) => {
         let person : any;
-        if(role == "user"){
+        if(role == userRole){
             person = await this.userService.getByEmail(mail);
-        }else if(role == "serviceProvider"){
+        }else if(role == serviceProviderRole){
             person = await this.serviceProviderService.getByEmail(mail);
         }
 
@@ -82,7 +83,7 @@ class authServiceClass {
         const { mail, role } = authUtil.decodeForgetToken(token);
         const hashedPass = await authUtil.hashPass(password);
         let person : any;
-        if(role == "user"){
+        if(role == userRole){
             person = await this.userService.getByEmail(mail);
             if(!person._id) throw new serverError(400, "No user or service provider found with the email");
             const data = <baseUser>{}
@@ -93,7 +94,7 @@ class authServiceClass {
                 passFlag : true
             })
 
-        }else if(role == "serviceProvider"){
+        }else if(role == serviceProviderRole){
             person = await this.serviceProviderService.getByEmail(mail);
             if(!person._id) throw new serverError(400, "No user or service provider found with the email");
             const data = <baseServiceProvider>{}

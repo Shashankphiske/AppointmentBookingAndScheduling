@@ -1,33 +1,41 @@
 import { authUtil } from "../factory/authFactory";
-import { email, logActivity } from "../factory/utilFactory";
+import { email, lockManager, logActivity } from "../factory/utilFactory";
 import type { baseUser } from "../repository/user/baseUser";
 import { userGeneralMethodsClass } from "../repository/user/userGeneralMethods";
+import { userRole } from "../utils/constantUtils";
 import { serverError } from "../utils/errorUtil";
 
 class userServiceClass {
     constructor (private userMethods : userGeneralMethodsClass) {}
     createUser = async (data : baseUser) => {
 
-        const existing = await this.userMethods.getByEmail(data.email);
-        if(existing.email){
-            throw new serverError(400, "User with the specified email already exists");
+        const lockkey = `${data.email}`;
+        const release = await lockManager.acquire(lockkey);
+
+        try{
+            const existing = await this.userMethods.getByEmail(data.email);
+            if(existing.email){
+                throw new serverError(400, "User with the specified email already exists");
+            }
+
+            const hashedPass = await authUtil.hashPass(data.password);
+
+            const user = await this.userMethods.create({
+                ...data,
+                password : hashedPass,
+            });
+            
+            if(user){
+                const token = authUtil.generateToken(user._id?.toString() ?? "", userRole);
+                email.send(user.email, "Welcome !");
+                logActivity.log("New User Created");
+                return { user, token};
+            }
+
+            throw new serverError(500, "Error while creating a user");
+        }finally{
+            release();
         }
-
-        const hashedPass = await authUtil.hashPass(data.password);
-
-        const user = await this.userMethods.create({
-            ...data,
-            password : hashedPass,
-        });
-        
-        if(user){
-            const token = authUtil.generateToken(user._id?.toString() ?? "", "user");
-            email.send(user.email, "Welcome !");
-            logActivity.log("New User Created");
-            return { user, token};
-        }
-
-        throw new serverError(500, "Error while creating a user");
     }
 
     getUser = async (id : string) => {

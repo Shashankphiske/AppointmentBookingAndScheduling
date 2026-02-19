@@ -5,10 +5,11 @@ import { validate } from "../middleware/validation";
 import { createAppointmentSchema, getAppointmentSchema, updateAppointmentSchema } from "../validators/appointment.schema";
 import { authController } from "../factory/authFactory";
 import { authLogoutSchema } from "../validators/auth.schema";
+import { userRole } from "../utils/constantUtils";
 
 const appointmentRouter = express.Router();
 
-appointmentRouter.use("/create", errorHandler.controllerWrapper(validate(authLogoutSchema)), errorHandler.controllerWrapper(authController.validate("user")));
+appointmentRouter.use("/create", errorHandler.controllerWrapper(validate(authLogoutSchema)), errorHandler.controllerWrapper(authController.validateForAppointment(userRole)));
 
 appointmentRouter.post("/create", errorHandler.controllerWrapper(validate(createAppointmentSchema)), errorHandler.controllerWrapper(appointmentController.createAppointment));
 

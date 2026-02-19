@@ -3,8 +3,8 @@ import type { ObjectId } from "mongodb";
 
 interface baseAvailability {
     workingDays : string[],
-    startTime : string,
-    endTime : string,
+    startTime : number,
+    endTime : number,
     duration : number
 }
 
@@ -18,7 +18,6 @@ interface serviceProviderType {
     serviceName : string,
     price : number,
     description : string,
-    duration : number,
     availability : baseAvailability
 }
 
@@ -32,9 +31,8 @@ const serviceProviderModel = new mongoose.Schema<mongoServiceProvider>({
     role : { type : String, default : "serviceProvider" },
     serviceName : { type : String, required : true },
     price : { type : Number, default : 0 },
-    duration : { type : Number, default : 0 },
     description : { type : String, default : "NA" },
-    availability : { workingDays : { type: Array, default : [] }, startTime : {type : String, default : "NA"}, endTime : {type : String, default : "NA"}, slotDuration : {type : Number, default : 0} }
+    availability : { workingDays : { type: Array, default : [] }, startTime : {type : Number, default : 0}, endTime : {type : Number, default : 0}, slotDuration : {type : Number, default : 0} }
 });
 
 const ServiceProvider = mongoose.model("ServiceProvider", serviceProviderModel);

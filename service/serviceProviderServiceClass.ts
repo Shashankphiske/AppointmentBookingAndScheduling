@@ -1,31 +1,39 @@
 import { authUtil } from "../factory/authFactory";
-import { email, logActivity } from "../factory/utilFactory";
+import { email, lockManager, logActivity } from "../factory/utilFactory";
 import type { baseServiceProvider } from "../repository/serviceProvider/baseServiceProvider";
 import type { serviceproviderGeneralMethodsClass } from "../repository/serviceProvider/serviceProviderGeneralMethods";
+import { serviceProviderRole } from "../utils/constantUtils";
 import { serverError } from "../utils/errorUtil";
 
 class serviceProviderServiceClass {
     constructor (private serviceProviderMethods : serviceproviderGeneralMethodsClass) {};
 
     createServiceProvider = async (data : baseServiceProvider) => {
-        const existing = await this.serviceProviderMethods.getByEmail(data.email);
-        if(!existing.email){
-            const hashedPass = await authUtil.hashPass(data.password);
+        const lockkey = `${data.email}`
+        const release = await lockManager.acquire(lockkey);
 
-            const serviceProvider = await this.serviceProviderMethods.create({...data,
-                password : hashedPass
-            });
-            
-            if(serviceProvider){
-                const token = authUtil.generateToken(serviceProvider._id?.toString() ?? "", "serviceProvider");
-                email.send(serviceProvider.email, "Welcome !");
-                logActivity.log("New Service Provider Created");
-                return { serviceProvider, token};
+        try{
+            const existing = await this.serviceProviderMethods.getByEmail(data.email);
+            if(!existing.email){
+                const hashedPass = await authUtil.hashPass(data.password);
+
+                const serviceProvider = await this.serviceProviderMethods.create({...data,
+                    password : hashedPass
+                });
+                
+                if(serviceProvider){
+                    const token = authUtil.generateToken(serviceProvider._id?.toString() ?? "", serviceProviderRole);
+                    email.send(serviceProvider.email, "Welcome !");
+                    logActivity.log("New Service Provider Created");
+                    return { serviceProvider, token};
+                }
+
+                throw new serverError(500, "Error while creating a service provider");
             }
-
-            throw new serverError(500, "Error while creating a service provider");
+            throw new serverError(400, "Service Provider with the specified email already exists");
+        }finally{
+            release();
         }
-        throw new serverError(400, "Service Provider with the specified email already exists");
     }
 
     getServiceProvider = async (id : string) => {

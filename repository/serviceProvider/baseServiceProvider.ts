@@ -10,8 +10,8 @@ interface baseService {
 
 interface baseAvailability {
     workingDays : string[],
-    startTime : string,
-    endTime : string,
+    startTime : number,
+    endTime : number,
     duration : number
 }
 
@@ -23,7 +23,6 @@ interface baseServiceProvider {
     role : string;
     password : string;
     serviceName : string,
-    duration : number,
     price : number,
     description : string,
     passFlag? : boolean,

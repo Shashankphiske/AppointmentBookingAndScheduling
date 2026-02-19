@@ -29,6 +29,18 @@ class authControllerClass {
         }
     }
 
+    validateForAppointment = (route : string) => {
+        return async ( req : Request, res : Response, next : NextFunction) => {
+            const { id, role } = authUtil.decodeToken(req.cookies.token);
+            if((role === route) || route === "*"){
+                await this.authServices.validate(id, role);
+                return next();
+            }
+
+            throw new serverError(400, "Please validate yourself");
+        }    
+    }
+
     logout = async (req : Request, res : Response) => {
 
         res.clearCookie("token");
