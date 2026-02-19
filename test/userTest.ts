@@ -20,7 +20,26 @@ jest.mock("../factory/utilFactory", () => ({
 }));
 
 describe("userServiceClass", () => {
-  let userMethodsMock: any;
+let created = false;
+
+let userMethodsMock = {
+    getByEmail: jest.fn(async () => {
+        return created ? { email: "test@mail.com" } : null;
+    }),
+
+    create: jest.fn(async (data) => {
+        created = true;
+        return {
+            _id: "123",
+            ...data
+        };
+    })
+};
+
+  const lockManagerMock = {
+      acquire: jest.fn().mockResolvedValue(jest.fn())
+  };
+
   let userService: userServiceClass;
 
 
@@ -33,10 +52,7 @@ describe("userServiceClass", () => {
       delete: jest.fn(),
     };
 
-    beforeEach(() => {
-      userService = new userServiceClass(userMethodsMock);
-    });
-
+    userService = new userServiceClass(userMethodsMock, lockManagerMock);
 
     jest.clearAllMocks();
   });
@@ -89,6 +105,7 @@ it("should prevent duplicate user creation using lock", async () => {
     const create2 = userService.createUser(userData);
 
     const results = await Promise.allSettled([create1, create2]);
+    console.log("Results : ", results);
 
     const success = results.filter(r => r.status === "fulfilled");
     const failed = results.filter(r => r.status === "rejected");

@@ -1,20 +1,21 @@
 import { authUtil } from "../factory/authFactory";
-import { email, lockManager, logActivity } from "../factory/utilFactory";
+import { email,logActivity } from "../factory/utilFactory";
 import type { baseUser } from "../repository/user/baseUser";
 import { userGeneralMethodsClass } from "../repository/user/userGeneralMethods";
 import { userRole } from "../utils/constantUtils";
 import { serverError } from "../utils/errorUtil";
+import type { inMemoryLockClass } from "../utils/inMemoryLockUtils";
 
 class userServiceClass {
-    constructor (private userMethods : userGeneralMethodsClass) {}
+    constructor (private userMethods : userGeneralMethodsClass, private lockManager : inMemoryLockClass) {}
     createUser = async (data : baseUser) => {
 
         const lockkey = `${data.email}`;
-        const release = await lockManager.acquire(lockkey);
+        const release = await this.lockManager.acquire(lockkey);
 
         try{
             const existing = await this.userMethods.getByEmail(data.email);
-            if(existing.email){
+            if(existing?.email){
                 throw new serverError(400, "User with the specified email already exists");
             }
 
@@ -24,7 +25,7 @@ class userServiceClass {
                 ...data,
                 password : hashedPass,
             });
-            
+            console.log(user);
             if(user){
                 const token = authUtil.generateToken(user._id?.toString() ?? "", userRole);
                 email.send(user.email, "Welcome !");
