@@ -1,4 +1,4 @@
-import type { baseServiceProvider } from "./baseServiceProvider";
+import type { baseServiceProvider } from "../../models/serviceProviderModel";
 
 abstract class serviceproviderGeneralMethodsClass {
     abstract create (data : baseServiceProvider) : Promise<baseServiceProvider>;

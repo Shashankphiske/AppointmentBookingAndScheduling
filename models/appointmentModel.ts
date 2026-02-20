@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import type { ObjectId } from "mongodb";
 
 interface appointmentType {
-    _id : ObjectId;
+    id ? : string
     name : string;
     status : string;
     date : Date;  
@@ -27,3 +27,4 @@ const appointmentModel = new mongoose.Schema<mongoAppointmentModel>({
 const Appointment = mongoose.model("Appointment", appointmentModel);
 
 export { Appointment };
+export type { appointmentType as baseAppointment };

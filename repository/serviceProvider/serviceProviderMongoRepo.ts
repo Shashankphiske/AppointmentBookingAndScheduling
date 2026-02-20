@@ -1,5 +1,5 @@
 import { ServiceProvider } from "../../models/serviceProviderModel";
-import type { baseServiceProvider } from "./baseServiceProvider";
+import type { baseServiceProvider } from "../../models/serviceProviderModel";
 import { serviceproviderGeneralMethodsClass } from "./serviceProviderGeneralMethods";
 
 class serviceProviderMongoRepoClass extends serviceproviderGeneralMethodsClass{

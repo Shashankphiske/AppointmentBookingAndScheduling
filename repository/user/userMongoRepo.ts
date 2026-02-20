@@ -1,5 +1,5 @@
 import { User } from "../../models/userModel";
-import type { baseUser } from "./baseUser";
+import type { baseUser } from "../../models/userModel"; 
 import { userGeneralMethodsClass } from "./userGeneralMethods";
 
 class userMongoRepoClass extends userGeneralMethodsClass {

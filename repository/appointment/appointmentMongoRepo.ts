@@ -1,6 +1,6 @@
 import { Appointment } from "../../models/appointmentModel";
 import { appointmentGeneralMethodsClass } from "./appointmentGeneralMethods";
-import type { baseAppointment } from "./baseAppointment";
+import type { baseAppointment } from "../../models/appointmentModel";
 
 class appointmentMongoRepoClass extends appointmentGeneralMethodsClass {
     
@@ -28,7 +28,7 @@ class appointmentMongoRepoClass extends appointmentGeneralMethodsClass {
     }
 
     async update (data : baseAppointment) : Promise<baseAppointment> {
-        const appointment = await Appointment.findById(data._id);
+        const appointment = await Appointment.findById(data.id);
         if ( appointment != null){
             appointment.status = data.status || appointment.status;
             appointment.date = data.date || appointment.date;

@@ -9,7 +9,6 @@ interface baseAvailability {
 }
 
 interface serviceProviderType {
-    _id : ObjectId
     name : string,
     password : string,
     email : string,
@@ -18,7 +17,8 @@ interface serviceProviderType {
     serviceName : string,
     price : number,
     description : string,
-    availability : baseAvailability
+    availability : baseAvailability,
+    passFlag ? : boolean
 }
 
 interface mongoServiceProvider extends serviceProviderType, mongoose.Document{};
@@ -38,3 +38,4 @@ const serviceProviderModel = new mongoose.Schema<mongoServiceProvider>({
 const ServiceProvider = mongoose.model("ServiceProvider", serviceProviderModel);
 
 export { ServiceProvider }
+export type { serviceProviderType as baseServiceProvider }

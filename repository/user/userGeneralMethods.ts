@@ -1,4 +1,4 @@
-import type { baseUser } from "./baseUser";
+import type { baseUser } from "../../models/userModel";
 
 abstract class userGeneralMethodsClass {
     abstract create (data : baseUser) : Promise <baseUser>;

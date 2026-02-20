@@ -1,13 +1,12 @@
 import mongoose from "mongoose";
-import type { ObjectId } from "mongodb";
 
 interface UserType{
-  _id : ObjectId
   name : string;
   email : string;
   phonenumber : number;
   password : string;
-  role : string;
+  role? : string;
+  passFlag? : boolean;
 }
 
 interface mongoUserModel extends UserType, mongoose.Document{};
@@ -23,3 +22,4 @@ const userSchema = new mongoose.Schema<mongoUserModel>({
 const User = mongoose.model("User", userSchema);
 
 export { User };
+export type { UserType as baseUser }
