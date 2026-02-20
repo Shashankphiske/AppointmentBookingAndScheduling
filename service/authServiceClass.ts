@@ -45,7 +45,7 @@ class authServiceClass {
             }
 
             throw new serverError(400, "Incorrect credentials or email");
-        }else if(data.role == "admin") {
+        }else if(data.role == adminRole) {
             const admin = await this.userService.getByEmail(data.email);
             if(admin.email){
                 const pass = admin.password;

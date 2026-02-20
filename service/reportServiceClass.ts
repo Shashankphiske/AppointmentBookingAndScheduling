@@ -13,6 +13,7 @@ class reportServiceClass {
         const scheduledAppointments = appointments.filter((a) => a.status == "scheduled");
         const cancelledAppointments = appointments.filter((a) => a.status == "cancelled");
         const completedAppointments = appointments.filter((a) => a.status == "completed");
+        const pendingAppointments = appointments.filter((a) => a.status == "pending");
 
         return {
             users : users.length,
@@ -21,7 +22,8 @@ class reportServiceClass {
             appointmentTypes : {
                 scheduledAppointments : scheduledAppointments.length,
                 cancelledAppointments : cancelledAppointments.length,
-                completedAppointments : completedAppointments.length
+                completedAppointments : completedAppointments.length,
+                pendingAppointments  : pendingAppointments.length,
             }
         }
     }

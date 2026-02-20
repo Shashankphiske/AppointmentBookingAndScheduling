@@ -11,7 +11,6 @@ class appointmentServiceClass {
     constructor (private appointmentMethods : appointmentGeneralMethodsClass, private userMethods : userGeneralMethodsClass, private servicePMethods : serviceproviderGeneralMethodsClass ) {};
 
     createAppointment = async (data : baseAppointment) => {
-
         const lockkey = `${data.serviceProviderEmail}:${data.date}`;
         const release = await lockManager.acquire(lockkey);
         try{
@@ -27,7 +26,6 @@ class appointmentServiceClass {
             });
 
             if(appointment){
-                email.sendAppointment(appointment.serviceProviderEmail, appointment.userEmail, appointment._id?.toString() ?? "NA");
                 logActivity.log("New Appointment Created");
 
                 return appointment;
@@ -123,13 +121,12 @@ class appointmentServiceClass {
 
         const day = new Date(data.date).toLocaleString("en-US", { weekday : "long" });
 
-        if(!serviceP.availability?.workingDays.includes(day)) throw new serverError(400, "Service provider not available");
+        if(!serviceP.availability?.workingDays.includes(day)) throw new serverError(400, "Service provider not available day");
 
         if(data.time < serviceP.availability.startTime || data.time > serviceP.availability.endTime) throw new serverError(400, "Service Provider not available");
 
         let differenceTime = data.time - serviceP.availability.startTime;
-        differenceTime = differenceTime/(1000*60);
-        if(differenceTime % serviceP.availability.duration !== 0) throw new serverError(400, "Service Provider not available");
+        if(differenceTime % serviceP.availability.duration !== 0) throw new serverError(400, "Service Provider not available diff");
 
         return  (differenceTime / serviceP.availability.duration) * serviceP.price;
     }

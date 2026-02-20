@@ -21,11 +21,19 @@ class authUtilClass {
     }
 
     generateForgetToken = ( mail : string, role : string ) => {
-        return jwt.sign( {mail, role}, process.env.JWTSECRET as string, { expiresIn : "1d" } );
+        return jwt.sign( {mail, role}, process.env.JWTSECRET as string, { expiresIn : "10m" } );
+    }
+
+    generatePaymentToken = ( id : string, flag : boolean ) => {
+        return jwt.sign({ id,  flag }, process.env.PAYMENTSECRET as string, { expiresIn : "10m" });
     }
 
     decodeForgetToken = (token : string) => {
         return jwt.verify(token, process.env.JWTSECRET as string ) as { mail : string, role : string }
+    }
+
+    decodePaymentToken = ( token : string ) => {
+        return jwt.verify(token, process.env.PAYMENTSECRET as string) as { id : string, flag : boolean }
     }
 
     logout = (req : Request, res : Response) => {
@@ -34,15 +42,6 @@ class authUtilClass {
         return res.status(200).json({
             message : "Successfully logged out"
         });
-    }
-
-    checkAuthorization = ( token : string, auth : string ) => {
-        const { id, role } = this.decodeToken(token);
-        if(role == auth || role == adminRole){
-            return;
-        }
-
-        throw new serverError(400, "Not Authorized");
     }
 }
 

@@ -5,6 +5,7 @@ import { validate } from "../middleware/validation";
 import { createUserSchema, deleteUserSchema, getUserSchema } from "../validators/user.schema";
 import { authController } from "../factory/authFactory";
 import { authLogoutSchema } from "../validators/auth.schema";
+import { userRole } from "../utils/constantUtils";
 
 const userRouter = express.Router();
 
@@ -12,7 +13,7 @@ userRouter.post("/create", errorHandler.controllerWrapper(validate(createUserSch
 userRouter.get("/fetch", errorHandler.controllerWrapper(userController.getAllUsers));
 userRouter.post("/fetch", errorHandler.controllerWrapper(validate(getUserSchema)), errorHandler.controllerWrapper(userController.getUser));
 
-userRouter.use(errorHandler.controllerWrapper(validate(authLogoutSchema)), errorHandler.controllerWrapper(authController.validate("user")));
+userRouter.use(errorHandler.controllerWrapper(validate(authLogoutSchema)), errorHandler.controllerWrapper(authController.validate(userRole)));
 
 userRouter.delete("/", errorHandler.controllerWrapper(validate(deleteUserSchema)), errorHandler.controllerWrapper(userController.deleteUser));
 

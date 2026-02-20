@@ -10,6 +10,7 @@ import { serviceProviderRouter } from "./router/serviceProviderRouter.js";
 import { globalErrorHandler } from "./factory/utilFactory.js";
 import { authRouter } from "./router/authRouter.js";
 import { reportRouter } from "./router/reportRouter.js";
+import { paymentRouter } from "./router/paymentRouter.js";
 
 const app = express();
 app.use(express.json());
@@ -31,6 +32,7 @@ app.use("/appointment", appointmentRouter);
 app.use("/serviceprovider", serviceProviderRouter);
 app.use("/auth", authRouter);
 app.use("/reports", reportRouter);
+app.use("/payment", paymentRouter);
 
 app.use(globalErrorHandler.handleError);
 

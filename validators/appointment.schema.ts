@@ -8,7 +8,7 @@ const createAppointmentSchema = z.object({
         userEmail : z.string({ error : "user email required" }).regex(emailRegex, { error : "Please provide a valid user email" }),
         serviceProviderEmail : z.string({ error : "service provider email required" }).regex(emailRegex, { error : "Please provide a valid service provider email" }),
         date : z.string({ error : "Please provide a scheduled date for the appointment" }),
-        time : z.string({ error : "Please provide a specific timing of the appointment" })
+        time : z.number({ error : "Please provide a specific timing of the appointment" })
     })
 })
 

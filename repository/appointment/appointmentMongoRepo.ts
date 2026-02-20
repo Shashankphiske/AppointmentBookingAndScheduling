@@ -7,7 +7,7 @@ class appointmentMongoRepoClass extends appointmentGeneralMethodsClass {
     async create (data: baseAppointment): Promise<baseAppointment> {
         const appointment = new Appointment({
             ...data,
-            status : "scheduled"
+            status : "pending"
         });
 
         await appointment.save();
@@ -16,7 +16,7 @@ class appointmentMongoRepoClass extends appointmentGeneralMethodsClass {
     }
 
     async get (id : string) : Promise<baseAppointment> {
-        const appointment = await Appointment.findById(id);
+        const appointment = await Appointment.findById({ _id : id });
 
         return appointment ?? <baseAppointment> {};
     }
