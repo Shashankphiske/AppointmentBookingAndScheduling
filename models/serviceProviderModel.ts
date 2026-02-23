@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import type { ObjectId } from "mongodb";
 
 interface baseAvailability {
     workingDays : string[],
